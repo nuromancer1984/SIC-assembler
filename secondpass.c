@@ -292,7 +292,7 @@ FILE *p=fopen(interfile,"r");
 FILE *r=fopen(objfile,"w+r");
 int start=rstart2(interfile),obj;
 int end=rend2(interfile);
-int count=0,flag=0,temp=0,opcode,operand,ind,line=0,tadd=0,tsize=0,wordb=0,fl=0;
+int count=0,flag=0,temp=0,opcode,operand,ind,line=0,tadd=0,tsize=0,wordb=0,fl=0,jj;
 char label[100]="PROG",opc[100],opr[100],li[100],loc[15],nonindex[10],index[10],tline[100]="",objs[10],byt[3],temps[20];
 printf("%s","Second Pass started");
 if(r==NULL)printf("Unable to create a file");
@@ -336,15 +336,15 @@ if(opr[0]=='C'){
 			fl=0;
 		for(int ii=2;opr[ii]!='\''&&fl!=1;){
 		wordb=0;
-		for(int jj=0;jj<3;jj++,ii++){
+		for(jj=0;jj<3&&fl!=1;jj++,ii++){
 		if(opr[ii]=='\'')fl=1;
 		wordb=wordb<<8;
 		if(fl!=1)wordb+=opr[ii];
 		
 		}
-		count+=3;
+		count+=jj;
 		printf("pp%0x\n",count);
-		if(tsize>29){
+		if(tsize>27){
 fprintf(r,"T^%06x^%02x%s\n",tadd,tsize,tline);
 tsize=0;
 tline[0]='\0';
@@ -353,13 +353,15 @@ tadd=0;
 if(tsize==0)
 {
 printf("dsfsdf%06x",count);
-tadd=count-3;
+tadd=count-jj;
 }
-sprintf(objs,"%06x",wordb);
+if(jj==1)sprintf(objs,"%02x",wordb);    
+else if(jj==2)sprintf(objs,"%04x",wordb); 
+else sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
 printf("The byte is %s\n",objs);
 strcat(tline,objs);
-tsize+=3;
+tsize+=jj;
 		
 		
 		}	
@@ -372,7 +374,7 @@ tsize+=3;
 			fl=0;
 		for(int ii=2;opr[ii]!='\''&&fl!=1;){
 		wordb=0;
-		for(int jj=0;jj<3&&fl==0;jj++){
+		for(jj=0;jj<3&&fl==0;jj++){
 		
 		byt[0]=0;
 		byt[1]=0;
@@ -388,9 +390,10 @@ tsize+=3;
 		wordb+=getbyte(byt);
 		
 		}
-		count+=3;
+		
+		count+=jj;
 		printf("pp%0x\n",count);
-		if(tsize>29){
+		if(tsize>27){                                            //TODO edit here further
 fprintf(r,"T^%06x^%02x%s\n",tadd,tsize,tline);
 tsize=0;
 tline[0]='\0';
@@ -399,13 +402,16 @@ tadd=0;
 if(tsize==0)
 {
 printf("dsfsdf%06x",count);
-tadd=count-3;
+tadd=count-jj;
 }
-sprintf(objs,"%06x",wordb);
+
+if(jj==1)sprintf(objs,"%02x",wordb);    
+else if(jj==2)sprintf(objs,"%04x",wordb);                                     //does not occupy all three bytes 
+else sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
 strcat(tline,objs);
 printf("The byte is %s\n",objs);
-tsize+=3;
+tsize+=jj;
 		
 		
 		}
@@ -420,7 +426,7 @@ else if(strcmp(opc,"WORD")==0){
 wordb=0;
 sscanf(opr,"%d",&wordb);
 
-if(tsize>29){
+if(tsize>27){
 fprintf(r,"T^%06x^%02x%s\n",tadd,tsize,tline);
 tsize=0;
 tline[0]='\0';
@@ -467,7 +473,7 @@ obj=makeob(opcode,ind,operand);
 objs[0]='\0';
 sprintf(objs,"%06x",obj);
 printf("   1:%s\n",objs);
-if(tsize>29){
+if(tsize>27){
 fprintf(r,"T^%06x^%02x%s\n",tadd,tsize,tline);
 tsize=0;
 tline[0]='\0';
