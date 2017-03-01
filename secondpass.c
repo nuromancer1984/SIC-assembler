@@ -176,7 +176,7 @@ int vget2(char* line,char* loc,char* label,char* opc,char* opr)
 label[0]='\0';
 opc[0]='\0';
 opr[0]='\0';
-
+opr[1]='\0';
 for(;((i<=strlen(line))&&(line[i]==' '));i++);
 for(i=0,j=0;((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
 loc[j]=line[i];
@@ -357,6 +357,7 @@ tadd=count-3;
 }
 sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
+printf("The byte is %s\n",objs);
 strcat(tline,objs);
 tsize+=3;
 		
@@ -379,11 +380,12 @@ tsize+=3;
 		for(int pp=0;opr[ii]!='\''&&pp<2;pp++){
 		byt[pp]=opr[ii];
 		ii++;                                       //byte to eord
-				}    
+				}  
+				printf(".....%d,,,,,,",getbyte(byt));  
 				                                        //herer
 		if(opr[ii]=='\'')fl=1;
 		wordb=wordb<<8;
-		if(fl!=1)wordb+=getbyte(byt);
+		wordb+=getbyte(byt);
 		
 		}
 		count+=3;
@@ -402,6 +404,7 @@ tadd=count-3;
 sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
 strcat(tline,objs);
+printf("The byte is %s\n",objs);
 tsize+=3;
 		
 		
@@ -456,7 +459,7 @@ return -2;
 }
 }
 else {
-
+operand=0;
 }
 if(strcmp(index,"")==0)ind=0;       //no index register
 else {ind=1;printf("\nIndex found ee%se",index);}
