@@ -55,7 +55,7 @@ obj=obj<<1;
 obj=obj+ind;
 obj=obj<<15;
 obj=obj+oprend;
-printf("%d\n",obj);
+//printf("%d\n",obj);
 return obj;
 }
 
@@ -242,7 +242,7 @@ return op[i].val;
 
 return -1;
 }
-int rstart2(char* filein){
+int rstart2(const char* filein){
 char li[100],opc[100],opr[100],label[100],loc[100];
 int r=0;
 FILE *p=fopen(filein,"r");
@@ -258,19 +258,19 @@ fclose(p);
 return r;
 }
 
-int rend2(char* filein){
+int rend2(const char* filein){
 char li[100],opc[100],opr[100],label[100],loc[100];
 int r=0,fl=0;
 FILE *p=fopen(filein,"r");
 if(!p)printf("\nUnable to open file");
-printf("\nLookin for end");
+printf("\nLooking for end");
 do{
 fgets(li,100,p);
 //if(feof(p)){fclose(p);return r;}
 vget2(li,loc,label,opc,opr);
 //printf("\nddd%s",opc);
 if(strcmp(label,"END")==0){
-printf("End found at %s\n",loc);
+printf("\nEnd found at %s\n",loc);
 sscanf(loc,"%x",&r);
 fl=1;
 }
@@ -285,7 +285,7 @@ return r;
 
 
 
-int secondpass(char* interfile,char* objfile)
+int secondpass(const char* interfile,const char* objfile)
 {
 
 FILE *p=fopen(interfile,"r");
@@ -310,11 +310,11 @@ strcpy(label,"");
 //printf("\n%s * %s * %s",label,opc,opr);
 sscanf(loc,"%x",&count);
 
-printf("*%06x *%s* %s *\n",count,opc,opr);
+//printf("*%06x *%s* %s *\n",count,opc,opr);
 if(strcmp(opc,"START")==0){    
 start=count;                     //ignore
 fprintf(r,"H^%-6s^%06x^%06x\n",label,count,end-start);                    //label does not contain real program name
-printf("Start found");
+printf("\nStart found");
 }
 
 else if(strcmp(opc,"RESW")==0){
@@ -343,7 +343,7 @@ if(opr[0]=='C'){
 		
 		}
 		count+=jj;
-		printf("pp%0x\n",count);
+		//printf("pp%0x\n",count);
 		if(tsize>27){
 fprintf(r,"T^%06x^%02x%s\n",tadd,tsize,tline);
 tsize=0;
@@ -352,14 +352,14 @@ tadd=0;
 }
 if(tsize==0)
 {
-printf("dsfsdf%06x",count);
+//printf("dsfsdf%06x",count);
 tadd=count-jj;
 }
 if(jj==1)sprintf(objs,"%02x",wordb);    
 else if(jj==2)sprintf(objs,"%04x",wordb); 
 else sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
-printf("The byte is %s\n",objs);
+//printf("The byte is %s\n",objs);
 strcat(tline,objs);
 tsize+=jj;
 		
@@ -383,7 +383,7 @@ tsize+=jj;
 		byt[pp]=opr[ii];
 		ii++;                                       //byte to eord
 				}  
-				printf(".....%d,,,,,,",getbyte(byt));  
+				//printf(".....%d,,,,,,",getbyte(byt));  
 				                                        //herer
 		if(opr[ii]=='\'')fl=1;
 		wordb=wordb<<8;
@@ -392,7 +392,7 @@ tsize+=jj;
 		}
 		
 		count+=jj;
-		printf("pp%0x\n",count);
+		//printf("pp%0x\n",count);
 		if(tsize>27){                                            //TODO edit here further
 fprintf(r,"T^%06x^%02x%s\n",tadd,tsize,tline);
 tsize=0;
@@ -401,7 +401,7 @@ tadd=0;
 }
 if(tsize==0)
 {
-printf("dsfsdf%06x",count);
+//printf("dsfsdf%06x",count);
 tadd=count-jj;
 }
 
@@ -410,7 +410,7 @@ else if(jj==2)sprintf(objs,"%04x",wordb);                                     //
 else sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
 strcat(tline,objs);
-printf("The byte is %s\n",objs);
+//printf("The byte is %s\n",objs);
 tsize+=jj;
 		
 		
@@ -434,10 +434,10 @@ tadd=0;
 }
 if(tsize==0)
 {
-printf("dsfsdf%06x",count);
+//printf("dsfsdf%06x",count);
 tadd=count;
 }
-printf("\nWord %x e\n",count);
+//printf("\nWord %x e\n",count);
 sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
 strcat(tline,objs);
@@ -468,11 +468,13 @@ else {
 operand=0;
 }
 if(strcmp(index,"")==0)ind=0;       //no index register
-else {ind=1;printf("\nIndex found ee%se",index);}
+else {ind=1;
+//printf("\nIndex found ee%se",index);
+}
 obj=makeob(opcode,ind,operand);
 objs[0]='\0';
 sprintf(objs,"%06x",obj);
-printf("   1:%s\n",objs);
+//printf("   1:%s\n",objs);
 if(tsize>27){
 fprintf(r,"T^%06x^%02x%s\n",tadd,tsize,tline);
 tsize=0;
@@ -517,7 +519,7 @@ return -1;
 
 
 
-void loadsymtab(char* filein){
+void loadsymtab(const char* filein){
 //printf("\nSYMTAB\n");
 FILE *p=fopen(filein,"r");
 char li[300],symboln[100],symboladd[100],s[100];

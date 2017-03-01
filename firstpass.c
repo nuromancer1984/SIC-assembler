@@ -103,6 +103,7 @@ void loadop(){
 	int opv;
 	char li[50],opc[10],opvc[10],opp[10];
 	int i=0;
+	if(!p)printf("\nUnable to open file");
 	do{
 		fgets(li,100,p);
 		vget(li,opc,opvc,opp);
@@ -127,7 +128,7 @@ int searchop(char* o){
 
 	return -1;
 }
-	int rstart(char* filein){
+	int rstart(const char* filein){
 	char li[100],opc[100],opr[100],label[100];
 	int r=0;
 	FILE *p=fopen(filein,"r");
@@ -145,7 +146,7 @@ int searchop(char* o){
 	fclose(p);
 	return r;
 	}
-int traverse(int start,char* filein,char* fileout){
+int traverse(int start,const char* filein,const char* fileout){
 	FILE *p=fopen(filein,"r");
 	FILE *q=fopen(fileout,"w");
 	start=rstart(filein);
@@ -163,7 +164,7 @@ int traverse(int start,char* filein,char* fileout){
 		if(!isnulls(li))continue;
 		if(feof(p))break;
 		vget(li,label,opc,opr);
-		printf("\n%s * %s * %s",label,opc,opr);
+		//printf("\n%s * %s * %s",label,opc,opr);
 		if(strcmp(opc,"END")==0){
 		strcpy(opr,startadd);
 		}
@@ -210,7 +211,7 @@ int traverse(int start,char* filein,char* fileout){
 				printf("\nStart found");
 			}
 		else if(strcmp(opc,"END")==0){					//ignore
-			
+			printf("\nEnd found");
 			}
 		else {
 		printf("invalid opcode %s",opc);
@@ -231,7 +232,7 @@ void prnsymtab(){
 		printf("%s * %06x\n",sym[i].symbol,sym[i].val);
 	}
 
-void writesymtab(char* fileout){
+void writesymtab(const char* fileout){
 	//printf("\nSYMTAB\n");
 	FILE *p=fopen(fileout,"w");
 
@@ -246,12 +247,11 @@ int main(int argn,char** args)
 	int q,j;
 
 	long int size;
-	printf("loading optab");
+	printf("Loading optab");
 	loadop();
-	printf("loading optab");
+	printf("\nloading complete");
 	j=traverse(0000,"ttt.txt","inter.txt");
-	printf("%d",j);
-	//printf("%d",searchop("sub"));
+	
 	writesymtab(_SYMTAB_);
 	scanf("%d",&q);
 	return 0;
