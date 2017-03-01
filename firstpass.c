@@ -139,7 +139,7 @@ int searchop(char* o){
 	vget(li,label,opc,opr);
 	if(strcmp(opc,"START")==0){
 	
-	sscanf(opr,"%d",&r);
+	sscanf(opr,"%x",&r);
 
 	}
 	fclose(p);
@@ -249,7 +249,7 @@ int main(int argn,char** args)
 	printf("loading optab");
 	loadop();
 	printf("loading optab");
-	j=traverse(0000,"inp2.txt","inter.txt");
+	j=traverse(0000,"ttt.txt","inter.txt");
 	printf("%d",j);
 	//printf("%d",searchop("sub"));
 	writesymtab(_SYMTAB_);
