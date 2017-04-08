@@ -109,13 +109,11 @@ void loadop(){
 		vget(li,opc,opvc,opp);
 		strcpy(op[i].opcode,opc);
 		sscanf(opvc,"%x",&op[i].val);
-		//printf("\n%s + %d",op[i].opcode,op[i].val);
-		//scanf("%d",&j);
+		
 		i++;
 	}while(!feof(p));
 	optcount=i;
-	/*for(i=0;i<optcount;i++)
-	printf("\n%s + %d",op[i].opcode,op[i].val);*/
+	
 
 }
 
@@ -217,8 +215,7 @@ int traverse(int start,const char* filein,const char* fileout){
 		printf("invalid opcode %s",opc);
 		return -1;}
 
-		//printf("%s %s %s",label,opc,opr);
-		//scanf("%d",&j);
+		
 
 		}while(!feof(p));
 	fclose(p);
@@ -233,8 +230,7 @@ void prnsymtab(){
 	}
 
 void writesymtab(const char* fileout){
-	//printf("\nSYMTAB\n");
-	FILE *p=fopen(fileout,"w");
+		FILE *p=fopen(fileout,"w");
 
 	for(int i=0;i<symcount;i++)
 		fprintf(p,"%-10s %06x\n",sym[i].symbol,sym[i].val);

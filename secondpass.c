@@ -66,28 +66,7 @@ sscanf(p,"%x",&d);
 return d;
 
 }
-/*int vget(char* line,char* label,char* opc,char* opr)
-{int i,j=0;
-label[0]='\0';
-opc[0]='\0';
-opr[0]='\0';
-for(i=0,j=0;((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
-label[j]=line[i];
-i++;
-label[j]='\0';
-for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
-for(j=0;(i<=strlen(line)&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
-opc[j]=line[i];
-i++;
-//for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
-opc[j]='\0';
-for(j=0;(i<=strlen(line)&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
-opr[j]=line[i];
-opr[j]='\0';
-i++;
-//for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
-}
-*/
+
 int vget(char* line,char* label,char* opc,char* opr)
 {int i,j=0;
 label[0]='\0';
@@ -101,13 +80,12 @@ for(;((i<=strlen(line))&&(line[i]==' '));i++);
 for(j=0;(i<=strlen(line)&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
 opc[j]=line[i];
 i++;
-//for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
 opc[j]='\0';
 for(j=0;(i<=strlen(line)&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
 opr[j]=line[i];
 opr[j]='\0';
 i++;
-//for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
+
 }
 
 void sepcoma(char *str,char* r,char*p)
@@ -134,41 +112,6 @@ p[j]='\0';
 }
 }
 
-/*void sepcoma(char *str,char* r,char*p)
-{
-p[0]='\0';
-sscanf(str,"%s,%s",r,p);
-}
-*/
-/*int vget2(char* line,char* loc,char* label,char* opc,char* opr)
-{int i,j=0;
-label[0]='\0';
-opc[0]='\0';
-opr[0]='\0';
-
-for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
-for(i=0,j=0;((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
-loc[j]=line[i];
-i++;
-loc[j]='\0';
-for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
-for(j=0;((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
-label[j]=line[i];
-i++;
-for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
-label[j]='\0';
-for(j=0;(i<=strlen(line)&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
-opc[j]=line[i];
-i++;
-for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
-opc[j]='\0';
-for(j=0;(i<=strlen(line)&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++,j++)
-opr[j]=line[i];
-for(;!((i<=strlen(line))&&(line[i]!='\n')&&(line[i]!='\r')&&(line[i]!=' '));i++);
-opr[j]='\0';
-}
-
-*/
 
 
 int vget2(char* line,char* loc,char* label,char* opc,char* opr)
@@ -223,13 +166,9 @@ fgets(li,100,p);
 vget(li,opc,opvc,opp);
 strcpy(op[i].opcode,opc);
 sscanf(opvc,"%x",&op[i].val);
-//printf("\n%s + %d",op[i].opcode,op[i].val);
-//scanf("%d",&j);
 i++;
 }while(!feof(p));
 optcount=i;
-/*for(i=0;i<optcount;i++)
-printf("\n%s + %d",op[i].opcode,op[i].val);*/
 
 }
 
@@ -266,9 +205,7 @@ if(!p)printf("\nUnable to open file");
 printf("\nLooking for end");
 do{
 fgets(li,100,p);
-//if(feof(p)){fclose(p);return r;}
 vget2(li,loc,label,opc,opr);
-//printf("\nddd%s",opc);
 if(strcmp(label,"END")==0){
 printf("\nEnd found at %s\n",loc);
 sscanf(loc,"%x",&r);
@@ -301,16 +238,7 @@ obj=0;
 fgets(li,100,p);
 if(feof(p))break;
 vget2(li,loc,opc,opr,temps);
-/*if(strcmp(opr,"")==0){                           
-strcpy(opr,opc);
-strcpy(opc,label);
-strcpy(label,"");
-
-}*/
-//printf("\n%s * %s * %s",label,opc,opr);
 sscanf(loc,"%x",&count);
-
-//printf("*%06x *%s* %s *\n",count,opc,opr);
 if(strcmp(opc,"START")==0){    
 start=count;                     //ignore
 fprintf(r,"H^%-6s^%06x^%06x\n",label,count,end-start);                    //label does not contain real program name
@@ -332,7 +260,7 @@ tadd=0;
 }
 else if(strcmp(opc,"BYTE")==0){
 if(opr[0]=='C'){
-			//temp=strlen(opr)-3;
+			
 			fl=0;
 		for(int ii=2;opr[ii]!='\''&&fl!=1;){
 		wordb=0;
@@ -343,8 +271,7 @@ if(opr[0]=='C'){
 		
 		}
 		count+=jj;
-		//printf("pp%0x\n",count);
-		if(tsize>27){
+if(tsize>27){
 fprintf(r,"T^%06x^%02x%s\n",tadd,tsize,tline);
 tsize=0;
 tline[0]='\0';
@@ -352,14 +279,12 @@ tadd=0;
 }
 if(tsize==0)
 {
-//printf("dsfsdf%06x",count);
 tadd=count-jj;
 }
 if(jj==1)sprintf(objs,"%02x",wordb);    
 else if(jj==2)sprintf(objs,"%04x",wordb); 
 else sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
-//printf("The byte is %s\n",objs);
 strcat(tline,objs);
 tsize+=jj;
 		
@@ -383,7 +308,7 @@ tsize+=jj;
 		byt[pp]=opr[ii];
 		ii++;                                       //byte to eord
 				}  
-				//printf(".....%d,,,,,,",getbyte(byt));  
+				  
 				                                        //herer
 		if(opr[ii]=='\'')fl=1;
 		wordb=wordb<<8;
@@ -392,7 +317,7 @@ tsize+=jj;
 		}
 		
 		count+=jj;
-		//printf("pp%0x\n",count);
+		
 		if(tsize>27){                                            //TODO edit here further
 fprintf(r,"T^%06x^%02x%s\n",tadd,tsize,tline);
 tsize=0;
@@ -401,7 +326,6 @@ tadd=0;
 }
 if(tsize==0)
 {
-//printf("dsfsdf%06x",count);
 tadd=count-jj;
 }
 
@@ -410,7 +334,6 @@ else if(jj==2)sprintf(objs,"%04x",wordb);                                     //
 else sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
 strcat(tline,objs);
-//printf("The byte is %s\n",objs);
 tsize+=jj;
 		
 		
@@ -434,10 +357,8 @@ tadd=0;
 }
 if(tsize==0)
 {
-//printf("dsfsdf%06x",count);
 tadd=count;
 }
-//printf("\nWord %x e\n",count);
 sprintf(objs,"%06x",wordb);
 strcat(tline,"^");
 strcat(tline,objs);
@@ -469,7 +390,6 @@ operand=0;
 }
 if(strcmp(index,"")==0)ind=0;       //no index register
 else {ind=1;
-//printf("\nIndex found ee%se",index);
 }
 obj=makeob(opcode,ind,operand);
 objs[0]='\0';
@@ -492,8 +412,6 @@ tsize+=3;
 }
 else return -1;
 
-//printf("%s %s %s",label,opc,opr);
-//scanf("%d",&j);
 
 }while((strcmp("END",opc)!=0));
 fclose(p);
@@ -507,7 +425,6 @@ printf("%s * %06x\n",sym[i].symbol,sym[i].val);
 }
 
 int searchsymtab(char *p){
-//printf("\nSYMTAB\n");
 for(int i=0;i<symcount;i++){
 if(strcmp(p,sym[i].symbol)==0){
 
@@ -520,7 +437,6 @@ return -1;
 
 
 void loadsymtab(const char* filein){
-//printf("\nSYMTAB\n");
 FILE *p=fopen(filein,"r");
 char li[300],symboln[100],symboladd[100],s[100];
 int i=0;
@@ -529,10 +445,7 @@ fgets(li,300,p);
 while(!feof(p)){
 
 vget(li,symboln,symboladd,s);
-//printf("%s *%s*%s",symboln,symboladd,li);
 sscanf(symboladd,"%x",&sym[i].val);
-
-//fscanf(p,"%10s %06x\n",sym[i].symbol,sym[i].val);
 strcpy(sym[i].symbol,symboln);
 i++;
 fgets(li,100,p);
@@ -547,7 +460,6 @@ int main()
 int d;
 loadsymtab(_SYMTAB_);
 printf("%s%d","loading optab",'.');
-//prnsymtab();
 loadop();
 printf("%s","\nloaded optab");
 printf("\n");
